@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>校园失物小助手 · 原型</title>
+<!-- 引入外部CSS -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="panel">
+  <h3>页面切换</h3>
+  <button class="on" data-p="login" onclick="go('login')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    登录页
+  </button>
+  <button data-p="home" onclick="go('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>
+    首页
+  </button>
+  <button data-p="search" onclick="go('search')">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+    搜索页
+  </button>
+  <button data-p="detail" onclick="go('detail')">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    详情页
+  </button>
+  <button data-p="publish" onclick="go('publish')">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    发布页
+  </button>
+  <button data-p="mine" onclick="go('mine')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    我的
+  </button>
+</div>
+
+<div class="phone">
+  <div class="statusbar" id="statusbar">
+    <span>22:34</span>
+    <div class="capsule">
+      <span class="dot">⋯</span>
+      <span class="line"></span>
+      <span class="dot">⊙</span>
+    </div>
+  </div>
+
+  <div class="screens">
+
+    <!-- ============ 登录页 ============ -->
+    <section class="screen active" id="screen-login">
+      <div class="login-hero">
+        <div class="login-logo">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+        </div>
+        <div class="login-title">校园失物小助手</div>
+        <div class="login-sub">让每一件失物都能回家</div>
+      </div>
+      <div class="login-card">
+        <div class="fld">
+          <label>学号 / 用户名</label>
+          <input placeholder="请输入学号或用户名">
+        </div>
+        <div class="fld">
+          <label>密码</label>
+          <input type="password" placeholder="请输入密码">
+        </div>
+        <button class="login-btn" onclick="toast('登录成功');go('home')">登 录</button>
+        <button class="login-btn wechat" onclick="toast('调起微信授权登录');go('home')">微信一键登录</button>
+      </div>
+      <div class="login-tip">
+        登录即表示同意 <b>《用户协议》</b> 和 <b>《隐私政策》</b><br>
+        原型演示 · 仅用于课程作业
+      </div>
+    </section>
+
+    <!-- ============ 首页 ============ -->
+    <section class="screen" id="screen-home">
+      <div class="app-title">校园失物小助手</div>
+      <div class="home-wrap">
+        <div class="warn-banner">
+          <svg viewBox="0 0 24 24"><path d="M12 9v4"/><circle cx="12" cy="17" r=".5" fill="currentColor"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          非官方、个人公益试运行，与学校官方无关
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-tag">校园公益信息板</div>
+          <div class="hero-title">校园失物小助手</div>
+          <div class="hero-desc">把失物招领信息整理得更清楚一些，让找回和认领都更安心。</div>
+          <div class="searchbar" onclick="go('search')">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+            <span>搜索物品、地点、颜色、描述</span>
+          </div>
+        </div>
+
+        <div class="seg-toggle">
+          <div class="s active" onclick="setTab(this)">招领信息<span class="s-sub">我捡到了东西</span></div>
+          <div class="s" onclick="setTab(this)">寻物信息<span class="s-sub">我丢失了东西</span></div>
+        </div>
+
+        <div class="list" id="homeList"></div>
+      </div>
+    </section>
+
+    <!-- ============ 搜索页 ============ -->
+    <section class="screen" id="screen-search">
+      <div class="search-header">
+        <span class="back" onclick="go('home')">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </span>
+        <div class="search-input">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>
+          <input id="searchInput" placeholder="搜索物品、地点、颜色、描述" oninput="renderSearch()">
+        </div>
+        <span class="cancel" onclick="go('home')">取消</span>
+      </div>
+      <div class="list" id="searchList"></div>
+    </section>
+
+    <!-- ============ 详情页 ============ -->
+    <section class="screen" id="screen-detail">
+      <div class="detail-scroll">
+        <div class="navbar">
+          <span class="back" onclick="go('home')">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          </span>
+          <span class="nav-title">物品详情</span>
+          <span class="ph"></span>
+        </div>
+        <div class="detail-img"><img id="dImg" src="" alt="物品图片"></div>
+        <div class="detail-card">
+          <div class="row1">
+            <h2 id="dName">物品名称</h2>
+            <span class="badge lost" id="dType">寻物</span>
+          </div>
+          <div style="height:10px"></div>
+          <div class="kv"><span>地点</span><b id="dPlace">地点</b></div>
+          <div class="kv"><span>时间</span><b id="dTime">时间</b></div>
+          <div class="kv"><span>状态</span><b id="dStatus">状态</b></div>
+          <div class="kv"><span>发布者</span><b>张同学</b></div>
+          <div class="kv"><span>联系电话</span><b class="tel" id="dTel">电话</b></div>
+        </div>
+        <div class="section-title">物品描述</div>
+        <div class="desc-box" id="dDesc"></div>
+      </div>
+      <div class="bottom-actions">
+        <button class="btn-ghost" onclick="showResolved()">标记已解决</button>
+        <button class="btn-primary" onclick="callPhone()">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          打电话
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ 发布页 ============ -->
+    <section class="screen" id="screen-publish">
+      <div class="navbar">
+        <span class="ph"></span>
+        <span class="nav-title">发布信息</span>
+        <span class="ph"></span>
+      </div>
+      <div class="pub-wrap">
+        <div class="pub-tip">
+          <div class="pub-tip-line">
+            <span class="pub-tip-tag">发布前请核对</span>
+            <span class="txt">请如实填写物品信息和具体地点</span>
+          </div>
+          <div class="pub-tip-line">
+            <span class="txt">请勿填写学号、身份证号、验证码等<b>敏感信息</b></span>
+          </div>
+        </div>
+
+        <div class="type-toggle">
+          <div class="type-btn active-lost" id="typeLost" onclick="setType('lost')">
+            <div class="t-name">寻物</div>
+            <div class="t-sub">我丢了东西</div>
+          </div>
+          <div class="type-btn" id="typeFound" onclick="setType('found')">
+            <div class="t-name">招领</div>
+            <div class="t-sub">我捡到了东西</div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-row">
+            <label>物品名称<span class="req">*</span></label>
+            <input id="fName" placeholder="如：黑色耳机、校园卡">
+          </div>
+          <div class="form-row" onclick="openPicker('选择物品分类', CATEGORIES, v=>setField('fCategory', v))">
+            <label>物品分类<span class="req">*</span></label>
+            <input id="fCategory" placeholder="请选择分类" readonly>
+            <span class="arrow">›</span>
+          </div>
+          <div class="form-row">
+            <label>颜色描述</label>
+            <input id="fColor" placeholder="如：黑色、红白相间">
+          </div>
+          <div class="form-row" onclick="openPicker('选择地点类型', PLACES, v=>setField('fPlaceType', v))">
+            <label>地点类型<span class="req">*</span></label>
+            <input id="fPlaceType" placeholder="请选择地点类型" readonly>
+            <span class="arrow">›</span>
+          </div>
+          <div class="form-row">
+            <label>具体地点<span class="req">*</span></label>
+            <input id="fPlaceDetail" placeholder="如：A02、二楼自习室">
+          </div>
+          <div class="form-row">
+            <label>时间</label>
+            <input id="fTime" placeholder="如：10-21 15:40">
+          </div>
+          <div class="form-row">
+            <label>联系电话</label>
+            <input id="fTel" type="tel" placeholder="选填，方便对方联系">
+          </div>
+          <div class="form-row" style="align-items:flex-start;padding-top:12px">
+            <label style="padding-top:2px">描述</label>
+            <textarea id="fDesc" placeholder="补充颜色、特征、挂件等"></textarea>
+          </div>
+          <!-- 修改后的图片上传行 -->
+          <div class="form-row" onclick="document.getElementById('fImgFile').click()">
+            <label>物品图片</label>
+            <div class="upload-inline" id="uploadPreviewBox">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span id="uploadText">点击上传</span>
+            </div>
+            <!-- 隐藏的真实文件上传控件 -->
+            <input type="file" id="fImgFile" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+          </div>
+        </div>
+
+        <button class="pub-btn" onclick="publish()">发 布</button>
+      </div>
+    </section>
+
+    <!-- ============ 我的 ============ -->
+    <section class="screen" id="screen-mine">
+      <div class="app-title">我的</div>
+      <div class="mine-wrap">
+        <div class="mine-hero">
+          <div class="mine-hero-tag">个人中心</div>
+          <div class="mine-hero-title">我的发布</div>
+          <div class="mine-hero-desc">这里会整理你发布过的寻物和招领信息，方便继续跟进、标记和删除。</div>
+        </div>
+
+        <div class="posts-title">我的帖子</div>
+        <div id="mineList"></div>
+
+        <button class="pub-btn" style="background:#fff;color:#c17a7a;border:1px solid #f5e0e0;box-shadow:none;margin-top:20px" onclick="toast('已退出登录');go('login')">退出登录</button>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="tabbar" id="tabbar">
+    <div class="tab-item active" data-tab="home" onclick="go('home')">
+      <span class="ti"><svg viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg></span>
+      <span>首页</span>
+    </div>
+    <div class="tab-item" data-tab="publish" onclick="go('publish')">
+      <span class="ti"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>
+      <span>发布</span>
+    </div>
+    <div class="tab-item" data-tab="mine" onclick="go('mine')">
+      <span class="ti"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span>
+      <span>我的</span>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- 成功弹窗 -->
+  <div class="success-mask" id="successMask">
+    <div class="success-box">
+      <div class="success-circle" id="successIcon">
+        <svg viewBox="0 0 24 24"><polyline points="5 13 10 18 19 7"/></svg>
+      </div>
+      <div class="success-title" id="successTitle">发布成功</div>
+      <div class="success-desc" id="successDesc">你的信息已发布<br>同学们可以浏览和搜索到啦</div>
+      <div class="success-btns" id="successBtns">
+        <button class="go-mine" onclick="closeSuccess();go('mine')">查看我的发布</button>
+        <button class="go-home" onclick="closeSuccess();go('home')">返回首页</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 拨打中弹窗 -->
+  <div class="calling-mask" id="callingMask">
+    <div class="calling-avatar">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <div class="calling-name">张同学</div>
+    <div class="calling-tel" id="callingTel">138****8888</div>
+    <div class="calling-status">
+      正在拨打中<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+    <button class="calling-hang" onclick="hangUp()">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </button>
+  </div>
+
+  <!-- 底部选择器 -->
+  <div class="picker-mask" id="pickerMask" onclick="if(event.target===this)closePicker()">
+    <div class="picker-sheet">
+      <div class="picker-title" id="pickerTitle">请选择</div>
+      <div class="picker-opts" id="pickerOpts"></div>
+      <button class="picker-cancel" onclick="closePicker()">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 按顺序引入 JS 文件 -->
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
