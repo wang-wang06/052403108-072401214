@@ -4,14 +4,37 @@
 
 ## 目录结构
 
-- index.html — 入口页面
-- test.html — 单元测试页面
-- assert.js — 轻量级断言库
-- css/style.css — 样式
-- js/data.js — 常量与初始数据
-- js/utils.js — 工具函数
-- js/app.js — 页面渲染与交互
-- img/ — 物品图片
+```
+campus-lost-found/
+├── index.html          主入口页面，双击运行
+├── test.html           单元测试页面
+├── assert.js           轻量级断言库（供 test.html 使用）
+├── README.md           项目说明文档
+├── .gitignore          Git 忽略配置
+├── css/
+│   └── style.css       全部样式（页面布局、配色、动画）
+├── js/
+│   ├── data.js         常量、初始数据、LocalStorage 持久化
+│   ├── utils.js        工具函数（Toast、时间、选择器、弹窗）
+│   └── app.js          页面渲染与交互逻辑
+└── img/
+    ├── 黑色双肩包.png
+    ├── 学生卡.png
+    ├── 蓝牙耳机.png
+    ├── 钥匙串.png
+    ├── 雨伞.png
+    └── 身份证.png
+```
+
+**目录组织说明**：
+
+- **按职责分层**：项目把代码按职责分成三层——`js/data.js` 负责数据（常量、初始数据、持久化），`js/utils.js` 负责通用工具（Toast、时间、选择器、弹窗），`js/app.js` 负责页面渲染与交互。这样修改某一层时不会影响其他层。
+- **结构与样式分离**：`index.html` 只负责页面骨架，`css/style.css` 只负责外观。调整配色或布局时只改 CSS，不动 HTML。
+- **页面与测试分离**：`index.html` 是主入口，`test.html` 是独立的测试入口，配套 `assert.js` 提供断言能力。两者互不干扰，运行测试不影响主程序的运行。
+- **素材集中管理**：所有物品图片统一放在 `img/` 目录，代码通过相对路径 `img/xxx.png` 引用。新增物品图片时只需放入该目录，无需改动其他位置。
+- **配置与文档**：`README.md` 提供项目说明，`.gitignore` 声明不需要纳入版本控制的文件（如编辑器缓存、日志）。
+- **技术栈**：全部使用原生 HTML、CSS 和 JavaScript 实现，没有引入第三方框架。
+
 
 ## 使用说明
 
